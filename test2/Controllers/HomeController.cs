@@ -16,6 +16,7 @@ namespace test2.Controllers
         public IActionResult Index()
         {
             return View("~/Views/Web/Index.cshtml");
+
         }
 
 
