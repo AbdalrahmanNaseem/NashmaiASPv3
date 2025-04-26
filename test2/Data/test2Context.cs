@@ -32,6 +32,7 @@ namespace test2.Data
 
             base.OnModelCreating(modelBuilder);
         }
+        public DbSet<test2.Models.User> User { get; set; } = default!;
 
 
 
