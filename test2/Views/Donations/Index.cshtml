@@ -1,4 +1,4 @@
-﻿@model IEnumerable<test2.Models.Category>
+﻿@model IEnumerable<test2.Models.Donation>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,10 +14,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Amount)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Comping)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
@@ -29,10 +29,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Comping.Title)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Id)

@@ -9,32 +9,37 @@ namespace test2.Data
 {
     public class test2Context : DbContext
     {
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Comping> Compings { get; set; }
+        public DbSet<Donation> Donations { get; set; }
+
+        public DbSet<BloodCategory> BloodCategories { get; set; }
+
+        public DbSet<BloodComping> BloodCompings { get; set; }
+        public DbSet<BloodDonation> BloodDonations { get; set; }
+
+
         public test2Context (DbContextOptions<test2Context> options)
             : base(options)
         {
         }
 
-        public DbSet<test2.Models.Naseem> Naseem { get; set; } = default!;
-        public DbSet<test2.Models.khattab> khattab { get; set; } = default!;
-        public DbSet<test2.Models.Moh> Moh { get; set; } = default!;
-        public DbSet<test2.Models.Parson> Parson { get; set; } = default!;
-        public DbSet<test2.Models.Category> Category { get; set; } = default!;
-        public DbSet<test2.Models.SubCategory> SubCategory { get; set; } = default!;
-        public object SubCategories { get; internal set; }
-
+      
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SubCategory>()
-                .HasOne(sc => sc.Category)
-                .WithMany(c => c.SubCategories)
-                .HasForeignKey(sc => sc.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade); // اختياري: لحذف الفئات الفرعية تلقائيًا إذا انحذفت الفئة الرئيسية
+          
 
-            base.OnModelCreating(modelBuilder);
+
+
+          
         }
-        public DbSet<test2.Models.User> User { get; set; } = default!;
+        public DbSet<test2.Models.BloodCategory> BloodCategory { get; set; } = default!;
+     
 
 
 
     }
+
 }

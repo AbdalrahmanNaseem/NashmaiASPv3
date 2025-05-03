@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using test2.Data;
 
@@ -10,9 +11,11 @@ using test2.Data;
 namespace test2.Migrations
 {
     [DbContext(typeof(test2Context))]
-    partial class test2ContextModelSnapshot : ModelSnapshot
+    [Migration("20250503143641_InitialCreateBloodCategore")]
+    partial class InitialCreateBloodCategore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,68 +53,6 @@ namespace test2.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("BloodCategory");
-                });
-
-            modelBuilder.Entity("test2.Models.BloodComping", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BloodCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Goal")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BloodCategoryId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BloodCompings");
-                });
-
-            modelBuilder.Entity("test2.Models.BloodDonation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BloodCompingId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BloodCompingId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("BloodDonations");
                 });
 
             modelBuilder.Entity("test2.Models.Category", b =>
@@ -241,40 +182,6 @@ namespace test2.Migrations
                     b.HasOne("test2.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("test2.Models.BloodComping", b =>
-                {
-                    b.HasOne("test2.Models.BloodCategory", "BloodCategory")
-                        .WithMany()
-                        .HasForeignKey("BloodCategoryId");
-
-                    b.HasOne("test2.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("BloodCategory");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("test2.Models.BloodDonation", b =>
-                {
-                    b.HasOne("test2.Models.BloodComping", "BloodComping")
-                        .WithMany()
-                        .HasForeignKey("BloodCompingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("test2.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BloodComping");
 
                     b.Navigation("User");
                 });

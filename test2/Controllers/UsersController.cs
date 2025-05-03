@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using test2.Data;
 using test2.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
+
 
 
 namespace test2.Controllers
@@ -24,7 +27,7 @@ namespace test2.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.User.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
         // GET: Users/Details/5
@@ -35,7 +38,7 @@ namespace test2.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -75,7 +78,7 @@ namespace test2.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -126,7 +129,7 @@ namespace test2.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -141,10 +144,10 @@ namespace test2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
             if (user != null)
             {
-                _context.User.Remove(user);
+                _context.Users.Remove(user);
             }
 
             await _context.SaveChangesAsync();
@@ -153,7 +156,7 @@ namespace test2.Controllers
 
         private bool UserExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
 
 
@@ -166,19 +169,32 @@ namespace test2.Controllers
         [HttpPost]
         public IActionResult Login(string username, string password)
         {
-            var user = _context.User
-                .FirstOrDefault(u => u.Username == username && u.Password == password);
+            // Find the user by username
+            var user = _context.Users.FirstOrDefault(u => u.Username == username);
 
             if (user != null)
             {
-                HttpContext.Session.SetInt32("UserId", user.Id);
-                HttpContext.Session.SetString("Username", user.Username);
-                return RedirectToAction("Index", "Home"); // أو أي صفحة رئيسية
+                var passwordHasher = new PasswordHasher<User>();
+                var result = passwordHasher.VerifyHashedPassword(user, user.Password, password);
+
+                if (result == PasswordVerificationResult.Success)
+                {
+                    // Set session values
+                    HttpContext.Session.SetInt32("UserId", user.Id);
+                    HttpContext.Session.SetString("Username", user.Username);
+                   // Optional: store the role too
+
+                    // Redirect to homepage or dashboard
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
+            // If login fails
             ViewBag.Error = "اسم المستخدم أو كلمة المرور غير صحيحة.";
             return View();
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
 
@@ -192,39 +208,35 @@ namespace test2.Controllers
         // GET: Users/Register
         public IActionResult Register()
         {
-            ViewBag.Role = "User";
+            
             return View();
         }
+
 
         // POST: Users/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([Bind("Username,Email,Password,Phone")] User user)
         {
-            if (ModelState.IsValid)
-            {
-                if (_context.User.Any(u => u.Phone == user.Phone || u.Email == user.Email))
-                {
-                    ViewBag.Error = "Phone or email already exists.";
-                    ViewBag.Role = "User";
-                    return View(user);
-                }
-
-             //ظ   user.Role = "User";
+          
+                var passwordHasher = new PasswordHasher<User>();
+                user.Password = passwordHasher.HashPassword(user, user.Password);
+                user.Role = "User";  
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Login");
-            }
+            
 
-            ViewBag.Role = "User";
             return View(user);
         }
+
+
+
 
         // GET: Users/RegisterAdmin
         public IActionResult RegisterAdmin()
         {
-            ViewBag.Role = "Admin";
-            return View("Register");
+            return View();
         }
 
         // POST: Users/RegisterAdmin
@@ -232,24 +244,51 @@ namespace test2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAdmin([Bind("Username,Email,Password,Phone")] User user)
         {
-            if (ModelState.IsValid)
-            {
-                if (_context.User.Any(u => u.Phone == user.Phone || u.Email == user.Email))
-                {
-                    ViewBag.Error = "Phone or email already exists.";
-                    ViewBag.Role = "Admin";
-                    return View("Register", user);
-                }
-
-                //user.Role = "Admin";
+           
+                var passwordHasher = new PasswordHasher<User>();
+                user.Password = passwordHasher.HashPassword(user, user.Password);
+                user.Role = "Admin";  
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Login");
-            }
+            
 
-            ViewBag.Role = "Admin";
-            return View("Register", user);
+
         }
+        // GET: Users/RegisterAdminHospital
+
+        public IActionResult RegisterAdminHospital()
+        {
+            return View();
+        }
+
+        // POST: Users/RegisterAdminHospital
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterAdminHospital([Bind("Username,Email,Password,Phone")] User user)
+        {
+          
+
+            var passwordHasher = new PasswordHasher<User>();
+            user.Password = passwordHasher.HashPassword(user, user.Password);
+
+
+            user.Role = "AdminHospital";
+
+            
+            _context.Add(user);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Login");
+
+           
+        }
+
+
+
+
+
+
 
     }
 }

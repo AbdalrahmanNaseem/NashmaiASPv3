@@ -1,4 +1,4 @@
-﻿@model IEnumerable<test2.Models.Category>
+﻿@model IEnumerable<test2.Models.BloodComping>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,10 +14,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model.Type)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Goal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodCategory)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
@@ -29,10 +35,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Goal)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.BloodCategory.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Id)

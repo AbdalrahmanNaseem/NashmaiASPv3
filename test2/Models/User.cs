@@ -10,6 +10,10 @@
         public string Phone { get; set; }
 
         public string Role { get; set; }
+
+        public required ICollection<Category> Categories { get; set; }
+
+
     }
 
 }

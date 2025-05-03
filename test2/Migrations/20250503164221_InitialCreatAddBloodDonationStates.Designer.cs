@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using test2.Data;
 
@@ -10,9 +11,11 @@ using test2.Data;
 namespace test2.Migrations
 {
     [DbContext(typeof(test2Context))]
-    partial class test2ContextModelSnapshot : ModelSnapshot
+    [Migration("20250503164221_InitialCreatAddBloodDonationStates")]
+    partial class InitialCreatAddBloodDonationStates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

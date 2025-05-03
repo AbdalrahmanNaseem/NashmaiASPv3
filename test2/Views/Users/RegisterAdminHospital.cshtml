@@ -1,0 +1,21 @@
+﻿@model test2.Models.User
+
+<form asp-action="RegisterAdminHospital" method="post">
+    <div>
+        <label asp-for="Username"></label>
+        <input asp-for="Username" required />
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" required />
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" required />
+    </div>
+    <div>
+        <label asp-for="Phone"></label>
+        <input asp-for="Phone" />
+    </div>
+    <button type="submit">Register Admin Hospital</button>
+</form>

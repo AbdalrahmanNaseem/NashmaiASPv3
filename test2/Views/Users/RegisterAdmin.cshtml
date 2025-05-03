@@ -1,9 +1,9 @@
-﻿
+﻿@model test2.Models.User
 
-<form asp-action="Register" method="post">
+<form asp-action="RegisterAdmin" method="post">
     <div>
         <label for="Username">Username</label>
-        <input type="text" id="Username" name="Username"  required />
+        <input type="text" id="Username" name="Username" required />
     </div>
     <div>
         <label for="Email">Email</label>
@@ -17,5 +17,5 @@
         <label for="Phone">Phone</label>
         <input type="text" id="Phone" name="Phone"  />
     </div>
-    <button type="submit">Register</button>
+    <button type="submit">Register Admin</button>
 </form>

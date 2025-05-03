@@ -1,4 +1,4 @@
-﻿@model test2.Models.Category
+﻿@model test2.Models.Donation
 
 @{
     ViewData["Title"] = "Details";
@@ -8,20 +8,20 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Category</h4>
+    <h4>Donation</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Amount)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(model => model.Amount)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Comping)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Comping.Title)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.User)
